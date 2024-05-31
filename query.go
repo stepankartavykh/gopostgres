@@ -1,8 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
-type StructuredQuery struct {
+func (Statement Statement) AddStatementToExecutionPlan() int {
+	return 0
+}
+
+type StructuredQuery struct{}
+
+type OperationType struct {
+	statement string
+	flag      string
+}
+
+type Statement struct {
+	operation OperationType
 }
 
 type ExecutionResult struct {
@@ -14,6 +29,21 @@ func (r ExecutionResult) getDebugMessage() string {
 }
 
 func syntaxAnalysis(query string) (err error, n int) {
+	var tempStatement Statement
+	statements := strings.Split(query, " ")
+	for _, statement := range statements {
+		switch statement {
+		case "SELECT":
+			tempStatement = Statement{operation: OperationType{flag: "SELECT", statement: statement}}
+		case "INSERT":
+			tempStatement = Statement{operation: OperationType{flag: "INSERT", statement: statement}}
+		case "UPDATE":
+			tempStatement = Statement{operation: OperationType{flag: "UPDATE", statement: statement}}
+		case "DELETE":
+			tempStatement = Statement{operation: OperationType{flag: "DELETE", statement: statement}}
+		}
+		tempStatement.AddStatementToExecutionPlan()
+	}
 	return nil, len(query)
 }
 
