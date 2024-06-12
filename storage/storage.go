@@ -1,6 +1,9 @@
-package main
+package storage
 
-import "fmt"
+import (
+	"fmt"
+	"mypostgres/storage/table"
+)
 
 const StoragePath string = "storage/GOPOSTGRES_DATA"
 
@@ -21,4 +24,13 @@ type processType struct {
 
 func storageWorker(process processType) {
 	fmt.Println(process.debugMessage, "[DEBUG]: STORAGE location:", StoragePath, "\n[DEBUG]:----Worker for storage element is running...")
+}
+
+func CreateTable() {
+	table.CreateTable("testTableName")
+}
+
+func TestStorage() {
+	testProcess := processType{debugMessage: "TEST message for storage package"}
+	storageWorker(testProcess)
 }

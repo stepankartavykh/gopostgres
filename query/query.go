@@ -1,7 +1,8 @@
-package main
+package query
 
 import (
 	"fmt"
+	"mypostgres/storage"
 	"strings"
 )
 
@@ -54,10 +55,12 @@ func parseQuery(query string) StructuredQuery {
 
 func executeQuery(query StructuredQuery) (error, ExecutionResult) {
 	fmt.Println("DEBUG: Execution in progress ...", query)
+	storage.TestStorage()
+	storage.CreateTable()
 	return nil, ExecutionResult{status: "success"}
 }
 
-func handleQuery(query string) {
+func HandleQuery(query string) {
 	fmt.Println("processing query ...", query)
 	if err, queryLength := syntaxAnalysis(query); err == nil {
 		fmt.Println("Length of query =", queryLength)
