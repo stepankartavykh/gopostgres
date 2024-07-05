@@ -17,6 +17,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	port := os.Getenv("DATABASE_PORT")
+	dirWithDatabasesPath := os.Getenv("DATABASE_LOCATION_DIRECTORY_PATH")
+	createInitialDatabase(dirWithDatabasesPath)
 
 	fmt.Println(os.Getenv("GOPATH"))
 
@@ -33,6 +35,13 @@ func main() {
 			continue
 		}
 		go handleConnection(conn)
+	}
+}
+
+func createInitialDatabase(dirPath string) {
+	_, err := os.Stat(dirPath)
+	if os.IsNotExist(err) {
+		fmt.Printf("Folder %s for initial database does not exist.\n", dirPath)
 	}
 }
 

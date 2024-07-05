@@ -42,6 +42,8 @@ func syntaxAnalysis(query string) (err error, n int) {
 			tempStatement = Statement{operation: OperationType{flag: "UPDATE", statement: statement}}
 		case "DELETE":
 			tempStatement = Statement{operation: OperationType{flag: "DELETE", statement: statement}}
+		case "CREATE":
+			tempStatement = Statement{operation: OperationType{flag: "CREATE", statement: statement}}
 		}
 		tempStatement.AddStatementToExecutionPlan()
 	}
@@ -60,7 +62,15 @@ func executeQuery(query StructuredQuery) (error, ExecutionResult) {
 	return nil, ExecutionResult{status: "success"}
 }
 
-func HandleQuery(query string) {
+type ResponseQuery struct {
+	status uint8
+}
+
+func defaultResponseQuery() ResponseQuery {
+	return ResponseQuery{}
+}
+
+func HandleQuery(query string) ResponseQuery {
 	fmt.Println("processing query ...", query)
 	if err, queryLength := syntaxAnalysis(query); err == nil {
 		fmt.Println("Length of query =", queryLength)
@@ -74,4 +84,5 @@ func HandleQuery(query string) {
 	} else {
 		fmt.Println(err)
 	}
+	return defaultResponseQuery()
 }
