@@ -22,6 +22,7 @@ type Statement struct {
 
 type ExecutionResult struct {
 	status string
+	result string
 }
 
 func (r ExecutionResult) getDebugMessage() string {
@@ -55,12 +56,18 @@ func parseQuery(query string) StructuredQuery {
 }
 
 func executeQuery(query StructuredQuery) (error, ExecutionResult) {
+	// TODO set up logging system.
 	fmt.Println("DEBUG: Execution in progress ...", query)
 	return nil, ExecutionResult{status: "success"}
 }
 
 type ResponseQuery struct {
 	status uint8
+	result string
+}
+
+func (response ResponseQuery) GetResponseResult() string {
+	return response.result
 }
 
 func defaultResponseQuery() ResponseQuery {
@@ -68,9 +75,8 @@ func defaultResponseQuery() ResponseQuery {
 }
 
 func HandleQuery(query string) ResponseQuery {
-	fmt.Println("processing query ...", query)
-	if err, queryLength := syntaxAnalysis(query); err == nil {
-		fmt.Println("Length of query =", queryLength)
+	// TODO set up logging system.
+	if err, _ := syntaxAnalysis(query); err == nil {
 		structuredQuery := parseQuery(query)
 		possibleExecutionError, executionResult := executeQuery(structuredQuery)
 		if possibleExecutionError != nil {
