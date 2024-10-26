@@ -21,7 +21,12 @@
 go.work
 go.work.sum
 
+# SQL files
+*.sql
+
 .idea
 
 data/
 .env
+
+bin
