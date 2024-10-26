@@ -5,6 +5,10 @@ import (
 	"testing"
 )
 
+func init() {
+	fmt.Println("init function...")
+}
+
 func TestQueryParsing(t *testing.T) {
 	query := "SELECT * from samples"
 	response := HandleQuery(query)

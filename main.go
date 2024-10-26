@@ -3,13 +3,14 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/joho/godotenv"
 	"io"
 	"log"
 	"mypostgres/query"
 	"net"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 func postmasterProcess() {
@@ -18,7 +19,7 @@ func postmasterProcess() {
 		// Simulation of work related to processes.
 		// TODO Figure out what processes are working and what logic behind them (e.g. how connections are handled).
 		time.Sleep(time.Second)
-		fmt.Println("Postmaster process is working!")
+		fmt.Printf("Postmaster process (%d) is working!\n", os.Getpid())
 	}
 }
 

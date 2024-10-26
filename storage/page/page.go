@@ -13,3 +13,14 @@ type pageLayout struct {
 	Items         *pageItems  `json:"All rows are here"`
 	PageTotalSize int         `json:"size of page in bytes json"`
 }
+
+func DefineType(i interface{}) string {
+	switch i.(type) {
+	case bool:
+		return "bool"
+	case int:
+		return "int"
+	default:
+		return "unknown"
+	}
+}
