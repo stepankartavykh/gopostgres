@@ -21,6 +21,9 @@
 go.work
 go.work.sum
 
+# SQL files
+*.sql
+
 .idea
 
 .env
