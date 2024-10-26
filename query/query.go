@@ -2,7 +2,6 @@ package query
 
 import (
 	"fmt"
-	"mypostgres/storage"
 	"strings"
 )
 
@@ -23,6 +22,7 @@ type Statement struct {
 
 type ExecutionResult struct {
 	status string
+	result string
 }
 
 func (r ExecutionResult) getDebugMessage() string {
@@ -42,6 +42,8 @@ func syntaxAnalysis(query string) (err error, n int) {
 			tempStatement = Statement{operation: OperationType{flag: "UPDATE", statement: statement}}
 		case "DELETE":
 			tempStatement = Statement{operation: OperationType{flag: "DELETE", statement: statement}}
+		case "CREATE":
+			tempStatement = Statement{operation: OperationType{flag: "CREATE", statement: statement}}
 		}
 		tempStatement.AddStatementToExecutionPlan()
 	}
@@ -54,16 +56,27 @@ func parseQuery(query string) StructuredQuery {
 }
 
 func executeQuery(query StructuredQuery) (error, ExecutionResult) {
+	// TODO set up logging system.
 	fmt.Println("DEBUG: Execution in progress ...", query)
-	storage.TestStorage()
-	storage.CreateTable()
 	return nil, ExecutionResult{status: "success"}
 }
 
-func HandleQuery(query string) {
-	fmt.Println("processing query ...", query)
-	if err, queryLength := syntaxAnalysis(query); err == nil {
-		fmt.Println("Length of query =", queryLength)
+type ResponseQuery struct {
+	status uint8
+	result string
+}
+
+func (response ResponseQuery) GetResponseResult() string {
+	return response.result
+}
+
+func defaultResponseQuery() ResponseQuery {
+	return ResponseQuery{}
+}
+
+func HandleQuery(query string) ResponseQuery {
+	// TODO set up logging system.
+	if err, _ := syntaxAnalysis(query); err == nil {
 		structuredQuery := parseQuery(query)
 		possibleExecutionError, executionResult := executeQuery(structuredQuery)
 		if possibleExecutionError != nil {
@@ -74,4 +87,5 @@ func HandleQuery(query string) {
 	} else {
 		fmt.Println(err)
 	}
+	return defaultResponseQuery()
 }
