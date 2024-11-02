@@ -7,13 +7,22 @@ import (
 	"strconv"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
+type ErrorWithCreatingTableInStorage struct {
+	arg     int
+	message string
+}
+
+func (err *ErrorWithCreatingTableInStorage) Error() string {
+	return fmt.Sprintf("%d - %s", err.arg, err.message)
+}
+
+func check(err error) {
+	if err != nil {
+		panic(err)
 	}
 }
 
-const DataPath = "/home/skartavykh/GolandProjects/gopostgres/data/"
+var DataPath = os.Getenv("DATA_PATH")
 
 func generateTableStorageName() (string, int) {
 	return strconv.Itoa(rand.Int()), 0

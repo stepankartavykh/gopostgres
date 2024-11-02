@@ -5,6 +5,27 @@ import (
 	"strings"
 )
 
+type Type int
+type Operator int
+
+type Query struct {
+	Type       Type
+	TableName  string
+	Conditions []Condition
+	Updates    map[string]string
+	Inserts    [][]string
+	Fields     []string
+	Aliases    map[string]string
+}
+
+type Condition struct {
+	OperandLeft         string
+	OperandLeftIsField  bool
+	Operator            Operator
+	OperandRight        string
+	OperandRightIsField bool
+}
+
 func (Statement Statement) AddStatementToExecutionPlan() int {
 	return 0
 }
@@ -23,6 +44,12 @@ type Statement struct {
 type ExecutionResult struct {
 	status string
 	result string
+}
+
+type ExecutionTreeDump struct{}
+
+func (query StructuredQuery) dumpExecutionTree() ExecutionTreeDump {
+	return ExecutionTreeDump{}
 }
 
 func (r ExecutionResult) getDebugMessage() string {
