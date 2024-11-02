@@ -29,7 +29,7 @@ func (r ExecutionResult) getDebugMessage() string {
 	return r.status
 }
 
-func syntaxAnalysis(query string) (err error, n int) {
+func syntaxAnalysis(query string) (n int, err error) {
 	var tempStatement Statement
 	statements := strings.Split(query, " ")
 	for _, statement := range statements {
@@ -47,7 +47,7 @@ func syntaxAnalysis(query string) (err error, n int) {
 		}
 		tempStatement.AddStatementToExecutionPlan()
 	}
-	return nil, len(query)
+	return len(query), nil
 }
 
 func parseQuery(query string) StructuredQuery {
@@ -76,7 +76,7 @@ func defaultResponseQuery() ResponseQuery {
 
 func HandleQuery(query string) ResponseQuery {
 	// TODO set up logging system.
-	if err, _ := syntaxAnalysis(query); err == nil {
+	if _, err := syntaxAnalysis(query); err == nil {
 		structuredQuery := parseQuery(query)
 		possibleExecutionError, executionResult := executeQuery(structuredQuery)
 		if possibleExecutionError != nil {
