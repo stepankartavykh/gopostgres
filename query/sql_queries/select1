@@ -1,0 +1,10 @@
+SELECT flight_no, departure_city, arrival_city
+FROM routes
+WHERE departure_city IN ( SELECT city
+FROM airports
+WHERE timezone ~ 'Krasnoyarsk'
+)
+AND arrival_city IN ( SELECT city
+FROM airports
+WHERE timezone ~ 'Krasnoyarsk'
+);
