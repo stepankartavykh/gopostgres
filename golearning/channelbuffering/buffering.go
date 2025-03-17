@@ -2,30 +2,21 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 )
 
 func main() {
-	s := []int{}
+	messages := make(chan string, 3)
 
-	s = append(s, 1)
-	fmt.Println(s)
+	// fmt.Println(reflect.TypeOf(messages))
 
-	q := make([]int, 10, 15)
+	messages <- "message 1"
+	messages <- "message 2"
+	messages <- "message 3"
 
-	q = append(q, 1)
-	fmt.Println(q)
-
-	messages := make(chan string, 2)
-
-	fmt.Println(reflect.TypeOf(messages))
-
-	messages <- "buffered"
-	messages <- "channel"
-
-	// for i := 0; i < 1; i++ {
+	// for i := range 1 {
 	// 	messages <- fmt.Sprintf("%d-message", i)
 	// }
+	fmt.Println(<-messages)
 	fmt.Println(<-messages)
 	fmt.Println(<-messages)
 
