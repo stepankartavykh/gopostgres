@@ -9,9 +9,9 @@ type pageItems struct {
 }
 
 type pageLayout struct {
-	Header        *pageHeader `json:"Header of the page"`
-	Items         *pageItems  `json:"All rows are here"`
-	PageTotalSize int         `json:"size of page in bytes json"`
+	Header        *pageHeader //Header of the page
+	Items         *pageItems  //All rows are here
+	PageTotalSize int         //Size of page in bytes
 }
 
 func DefineType(i interface{}) string {
